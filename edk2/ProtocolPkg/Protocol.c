@@ -49,5 +49,35 @@ UefiMain (
 		return Status;
 	}
 
+	UINTN SizeOfInfo = 0;
+	EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *Info;
+	for(UINTN i = 0; i < Gop->Mode->MaxMode; i++) {
+		Status = Gop->QueryMode(
+			Gop,
+			i,
+			&SizeOfInfo,
+			&Info
+		);
+
+		if (EFI_ERROR(Status))
+		{
+			Print(L"Failed to Querymode.\n");
+			return Status;
+		}
+
+		Print(L"Mode %d, H = %d, V = %d.\n",
+		i,
+		Info->HorizontalResolution,
+		Info->VerticalResolution
+		);
+	} 
+
+	Status = Gop->SetMode(Gop, 22);
+	if (EFI_ERROR(Status))
+	{
+		Print(L"Failed to SetMode.\n");
+		return Status;
+	}
+
     return Status;
 }
