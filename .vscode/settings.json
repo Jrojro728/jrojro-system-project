@@ -2,7 +2,10 @@
     "files.associations": {
         "base.h": "c",
         "*.inc": "c",
-        "random": "c"
+        "random": "c",
+        "cstdlib": "c",
+        "*.tcc": "c",
+        "memory": "c"
     }
 
 }

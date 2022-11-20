@@ -1,6 +1,7 @@
 #include <Uefi.h>
 #include <Library/UefiLib.h>
 #include <Library/UefiBootServicesTableLib.h>
+#include <stdlib.h>
 
 EFI_STATUS
 EFIAPI
@@ -79,5 +80,55 @@ UefiMain (
 		return Status;
 	}
 
-    return Status;
+	EFI_GRAPHICS_OUTPUT_BLT_PIXEL Red = {0, 0, 255, 0};
+
+	Status = Gop->Blt(
+		Gop,
+		&Red,
+		EfiBltVideoFill,
+		0,0,
+		0,0,
+		100,100,
+		0
+	);
+
+	if (EFI_ERROR(Status))
+	{
+		Print(L"Failed to Blt.\n");
+		return Status;
+	}
+
+	Status = Gop->Blt(
+		Gop,
+		NULL,
+		EfiBltVideoToVideo,
+		0,0,
+		200,200,
+		100,100,
+		0
+	);
+
+	if (EFI_ERROR(Status))
+	{
+		Print(L"Failed to Blt.\n");
+		return Status;
+	}
+
+	EFI_GRAPHICS_OUTPUT_BLT_PIXEL Blue = {255, 0, 0, 0};
+
+	EFI_PHYSICAL_ADDRESS BlueStart = Gop->Mode->FrameBufferBase
+								   + Gop->Mode->Info->PixelsPerScanLine * 100 * 4;
+
+    EFI_GRAPHICS_OUTPUT_BLT_PIXEL *VideoHandle = (EFI_GRAPHICS_OUTPUT_BLT_PIXEL*)BlueStart;
+
+	UINTN NoPixels = Gop->Mode->Info->PixelsPerScanLine * 100;
+
+	for (UINTN i = 0; i < NoPixels; i++)
+	{
+		*VideoHandle = Blue;
+		VideoHandle++;
+	}
+	
+	
+	return Status;
 }
