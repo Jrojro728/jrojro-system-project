@@ -1,11 +1,11 @@
 [Defines]
-    PLATFORM_NAME = ProtocolPkg
+    PLATFORM_NAME = JrojroSystemPkg
     PLATFORM_GUID = fc298db3-342a-49e5-b429-7233ce2993a5
     PLATFORM_VERSION = 0.1
     DSC_SPECIFICATION = 0x00010005
     SUPPORTED_ARCHITECTURES = X64
     BUILD_TARGETS = DEBUG|RELEASE
-    OUTPUT_DIRECTORY = ProtocolPkg/Build
+    OUTPUT_DIRECTORY = JrojroSystemPkg/Build
 
 [LibraryClasses]
     UefiLib|MdePkg/Library/UefiLib/UefiLib.inf
@@ -22,4 +22,4 @@
     RegisterFilterLib|MdePkg/Library/RegisterFilterLibNull/RegisterFilterLibNull.inf
 
 [Components]
-    ProtocolPkg/Protocol.inf
+    ../JrojroSystemPkg/JrojroSystem.inf

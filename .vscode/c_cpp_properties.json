@@ -3,7 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/edk2/MdePkg/Include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
