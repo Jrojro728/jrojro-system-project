@@ -1,0 +1,4 @@
+[submodule "edk2"]
+	url  = https://gitee.com/mirrors/edk2
+	path = edk2
+
