@@ -5,7 +5,7 @@
     DSC_SPECIFICATION = 0x00010005
     SUPPORTED_ARCHITECTURES = X64
     BUILD_TARGETS = DEBUG|RELEASE
-    OUTPUT_DIRECTORY = JrojroSystemPkg/Build
+    OUTPUT_DIRECTORY = ../JrojroSystemPkg/Build
 
 [LibraryClasses]
     UefiLib|MdePkg/Library/UefiLib/UefiLib.inf

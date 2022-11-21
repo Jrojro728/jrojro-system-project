@@ -1,6 +1,7 @@
 #include <Uefi.h>
 #include <Library/UefiLib.h>
 #include <Library/UefiBootServicesTableLib.h>
+#include <Guid/FileInfo.h>
 
 EFI_STATUS GetFileHandle(
     IN EFI_HANDLE ImageHandle,
@@ -87,6 +88,24 @@ EFI_STATUS GetFileHandle(
 
     Print(L"File is opened.\n");
 	#endif
+
+    return Status;
+}
+
+EFI_STATUS ReadFile(
+    IN EFI_FILE_PROTOCOL *File,
+    OUT EFI_PHYSICAL_ADDRESS *FileBase
+)
+{
+    EFI_STATUS Status = EFI_SUCCESS;
+    EFI_FILE_INFO *FileInfo;
+
+    UINTN InfoSize = sizeof(EFI_FILE_INFO) + 128;
+    Status = gBS->AllocatePool(
+        EfiLoaderData,
+        InfoSize,
+        (void **) &FileInfo
+    );
 
     return Status;
 }

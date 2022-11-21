@@ -10,15 +10,6 @@ UefiMain (
 )
 {
 	EFI_STATUS Status = EFI_SUCCESS;
-	UINTN NoHandles = 0;
-	EFI_HANDLE *Buffer = NULL;
-	Status = gBS->LocateHandleBuffer (
-		ByProtocol,
-		&gEfiSimpleFileSystemProtocolGuid,
-		NULL,
-		&NoHandles,
-		&Buffer
-	);
 	
 	return Status;
 }
