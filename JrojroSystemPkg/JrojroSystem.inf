@@ -8,6 +8,9 @@
 
 [Sources]
     JrojroSystem.c
+    File.c
+    Motion.c
+    Video.c
 
 [Packages]
     MdePkg/MdePkg.dec
