@@ -41,7 +41,7 @@ struct bmp_header {
     UINT32 color_num;
     UINT32 essentail_num;
 };
-
+#pragma pack()
 
 EFI_STATUS GetGopHandle(
     IN EFI_HANDLE ImageHandle,
