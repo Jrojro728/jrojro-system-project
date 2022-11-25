@@ -32,10 +32,10 @@ EFI_STATUS DrawLogo(
     CHAR16 *FileName = L"\\Logo.bmp";
     UINTN Hor = Gop->Mode->Info->HorizontalResolution;
     UINTN Ver = Gop->Mode->Info->VerticalResolution;
-    if (Hor * 3 == Ver * 4)
-    {
-        FileName = L"\\Narrow.BMP";
-    }
+    // if (Hor * 3 == Ver * 4)
+    // {
+    //     FileName = L"\\Narrow.BMP";
+    // }
     EFI_FILE_PROTOCOL *Logo;
     Status = GetFileHandle(ImageHandle, FileName, &Logo);
 

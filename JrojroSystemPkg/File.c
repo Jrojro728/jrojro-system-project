@@ -9,6 +9,7 @@ EFI_STATUS GetFileHandle(
     EFI_STATUS Status = EFI_SUCCESS;
     UINTN NoHandle = 0;
     EFI_HANDLE *HandleBuffer;
+
     Status = gBS->LocateHandleBuffer(
         ByProtocol,
         &gEfiSimpleFileSystemProtocolGuid,
@@ -16,17 +17,6 @@ EFI_STATUS GetFileHandle(
         &NoHandle,
         &HandleBuffer
     );
-    #ifdef DEBUG
-	Print(L"Status = %d.\n", Status);
-
-	if (EFI_ERROR(Status))
-	{
-		Print(L"Failed to LocateHandleBuffer.\n");
-		return Status;
-	}
-
-    Print(L"Get %d handle of EFI_SIMPLE_FILE_SYSTEM_PROTOCOL.\n", NoHandle);
-	#endif
 
     EFI_SIMPLE_FILE_SYSTEM_PROTOCOL *FileSystem;
     Status = gBS->OpenProtocol(
@@ -37,34 +27,12 @@ EFI_STATUS GetFileHandle(
         NULL,
         EFI_OPEN_PROTOCOL_GET_PROTOCOL
     );
-    #ifdef DEBUG
-	Print(L"Status = %d.\n", Status);
-
-	if (EFI_ERROR(Status))
-	{
-		Print(L"Failed to OpenProtocol.\n");
-		return Status;
-	}
-
-    Print(L"EFI_SIMPLE_FILE_SYSTEM_PROTOCOL is opened.\n");
-	#endif
 
     EFI_FILE_PROTOCOL *Root;
     Status = FileSystem->OpenVolume(
         FileSystem,
         &Root
     );
-    #ifdef DEBUG
-	Print(L"Status = %d.\n", Status);
-
-	if (EFI_ERROR(Status))
-	{
-		Print(L"Failed to OpenVolume.\n");
-		return Status;
-	}
-
-    Print(L"Volume is opened.\n");
-	#endif
 
     Status = Root->Open(
         Root,
@@ -73,18 +41,6 @@ EFI_STATUS GetFileHandle(
         EFI_FILE_MODE_WRITE | EFI_FILE_MODE_READ,
         EFI_OPEN_PROTOCOL_GET_PROTOCOL
     );
-
-    #ifdef DEBUG
-	Print(L"Status = %d.\n", Status);
-
-	if (EFI_ERROR(Status))
-	{
-		Print(L"Failed to Open.\n");
-		return Status;
-	}
-
-    Print(L"File is opened.\n");
-	#endif
 
     return Status;
 }
@@ -101,8 +57,34 @@ EFI_STATUS ReadFile(
     Status = gBS->AllocatePool(
         EfiLoaderData,
         InfoSize,
-        (void **) &FileInfo
+        (VOID **)&FileInfo
     );
 
+    Status = File->GetInfo(
+        File,
+        &gEfiFileInfoGuid,
+        &InfoSize,
+        FileInfo
+    );
+
+    UINTN FilePageSize = (FileInfo->FileSize >> 12) + 1;
+
+    EFI_PHYSICAL_ADDRESS FileBufferAddress;
+    Status = gBS->AllocatePages(
+        AllocateAnyPages,
+        EfiLoaderData,
+        FilePageSize,
+        &FileBufferAddress
+    );
+
+    UINTN ReadSize = FileInfo->FileSize;
+    Status = File->Read(
+        File,
+        &ReadSize,
+        (VOID *)FileBufferAddress
+    );
+
+    gBS->FreePool(FileInfo);
+    *FileBase = FileBufferAddress;
     return Status;
 }

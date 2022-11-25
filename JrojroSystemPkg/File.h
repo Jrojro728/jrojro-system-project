@@ -1,7 +1,8 @@
 #include <Uefi.h>
+#include <Guid/FileInfo.h>
 #include <Library/UefiLib.h>
 #include <Library/UefiBootServicesTableLib.h>
-#include <Guid/FileInfo.h>
+#include <Protocol/SimpleFileSystem.h>
 
 EFI_STATUS GetFileHandle(
     IN EFI_HANDLE ImageHandle,
