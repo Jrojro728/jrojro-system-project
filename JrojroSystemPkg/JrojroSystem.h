@@ -1,27 +1,11 @@
 #include "Motion.h"
+#include "Elf.h"
+
+#pragma pack(1)
 
 typedef struct
 {
-    EFI_PHYSICAL_ADDRESS       FrameBufferBase;
-    UINT64                     FrameBufferSize;
+    VIDEO_CONFIG VideoConfig;
 } BOOT_CONFIG;
 
-typedef struct
-{
-    UINT16 LimitLow;
-    UINT16 BaseLow;
-    UINT8  BaseMiddle;
-    UINT8  SysFlag;
-    UINT8  LimitHigh;
-    UINT8  BaseHigh;
-} GDT_SELECTOR;
-
-typedef struct
-{
-    UINTN BufferSize;
-    VOID *Buffer;
-    UINTN MapSize;
-    UINTN MapKey;
-    UINTN DescriptorSize;
-    UINT32 DescriptorVersion;
-} MEMORY_MAP;
+#pragma pack()
